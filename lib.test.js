@@ -7,6 +7,7 @@ import {
   buildDateStrings,
   buildGCalUrl,
   isIosSafari,
+  buildDefaultDescription,
 } from './lib.js'
 
 const DAY = 86_400_000
@@ -492,5 +493,24 @@ describe('isIosSafari', () => {
 
   it('returns false for desktop Safari', () => {
     expect(isIosSafari(DESKTOP_SAFARI_UA)).toBe(false)
+  })
+})
+
+// ── buildDefaultDescription ──────────────────────────────────────────────────
+
+describe('buildDefaultDescription', () => {
+  it('starts with an ellipsis followed by two newlines', () => {
+    const result = buildDefaultDescription('https://example.com/', new Date(2026, 5, 20))
+    expect(result).toMatch(/^…\n\n/)
+  })
+
+  it('ends with a traceability line containing the URL and date', () => {
+    const result = buildDefaultDescription('https://example.com/', new Date(2026, 5, 20))
+    expect(result).toContain('Created by https://example.com/ on June 20, 2026')
+  })
+
+  it('uses the provided URL verbatim', () => {
+    const result = buildDefaultDescription('https://kinhouse.github.io/Future/', new Date(2026, 5, 20))
+    expect(result).toContain('https://kinhouse.github.io/Future/')
   })
 })

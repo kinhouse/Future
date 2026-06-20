@@ -168,6 +168,7 @@ textarea:focus {
 textarea {
   resize: vertical;
   min-height: 80px;
+  overflow-x: hidden;
 }
 
 select option {

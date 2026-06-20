@@ -25,6 +25,17 @@ const __dirname = dirname(__filename)
 const css = readFileSync(resolve(__dirname, 'style.css'), 'utf-8')
 const html = readFileSync(resolve(__dirname, 'index.html'), 'utf-8')
 
+// ── Form simplification ───────────────────────────────────────────────────────
+
+describe('form simplification', () => {
+  it('all-day event checkbox is removed from index.html', () => {
+    expect(html).not.toContain('id="all-day"')
+  })
+  it('description textarea has rows="4" to fit default content without a scrollbar', () => {
+    expect(html).toContain('rows="4"')
+  })
+})
+
 // ── Title placeholder text ────────────────────────────────────────────────────
 
 describe('title placeholder', () => {
@@ -75,11 +86,6 @@ describe('Bug 3 – Add to Google Calendar', () => {
           <select id="date-preset"><option value="20" selected>20 years</option></select>
           <div id="custom-date-field" hidden><input type="date" id="custom-date" /></div>
           <div id="live-countdown"></div>
-          <label><input type="checkbox" id="all-day" checked />All-day</label>
-          <div id="time-fields" hidden>
-            <input type="time" id="start-time" value="10:00" />
-            <input type="time" id="end-time" value="11:00" />
-          </div>
           <textarea id="description"></textarea>
           <input type="text" id="location" />
           <button type="submit">Add to Google Calendar</button>
@@ -91,7 +97,6 @@ describe('Bug 3 – Add to Google Calendar', () => {
     function wireSubmit() {
       const presetSelect    = document.getElementById('date-preset')
       const customDateInput = document.getElementById('custom-date')
-      const allDayCheckbox  = document.getElementById('all-day')
       const form            = document.getElementById('invite-form')
 
       function getTargetDate() {
@@ -106,10 +111,7 @@ describe('Bug 3 – Add to Google Calendar', () => {
         if (!title) return
         const target = getTargetDate()
         if (!target) return
-        const allDay    = allDayCheckbox.checked
-        const startTime = document.getElementById('start-time').value
-        const endTime   = document.getElementById('end-time').value
-        const { startStr, endStr } = buildDateStrings(target, { allDay, startTime, endTime })
+        const { startStr, endStr } = buildDateStrings(target, { allDay: true })
         const locationInput = document.getElementById('location')
         const location = locationInput.dataset.geoValue || locationInput.value.trim()
         const url = buildGCalUrl({

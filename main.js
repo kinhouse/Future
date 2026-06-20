@@ -42,8 +42,6 @@ if ('serviceWorker' in navigator) {
 const presetSelect = document.getElementById('date-preset')
 const customDateField = document.getElementById('custom-date-field')
 const customDateInput = document.getElementById('custom-date')
-const allDayCheckbox = document.getElementById('all-day')
-const timeFields = document.getElementById('time-fields')
 const form = document.getElementById('invite-form')
 const liveCountdown = document.getElementById('live-countdown')
 
@@ -72,10 +70,6 @@ presetSelect.addEventListener('change', () => {
 
 customDateInput.addEventListener('input', updateLiveCountdown)
 
-allDayCheckbox.addEventListener('change', () => {
-  timeFields.hidden = allDayCheckbox.checked
-})
-
 form.addEventListener('submit', e => {
   e.preventDefault()
 
@@ -85,14 +79,11 @@ form.addEventListener('submit', e => {
   const target = getTargetDate()
   if (!target) { customDateInput.focus(); return }
 
-  const allDay = allDayCheckbox.checked
   const description = document.getElementById('description').value.trim()
   const locationInput = document.getElementById('location')
   const location = locationInput.dataset.geoValue || locationInput.value.trim()
-  const startTime = document.getElementById('start-time').value
-  const endTime = document.getElementById('end-time').value
 
-  const { startStr, endStr } = buildDateStrings(target, { allDay, startTime, endTime })
+  const { startStr, endStr } = buildDateStrings(target, { allDay: true })
   const url = buildGCalUrl({ title, startStr, endStr, description, location })
 
   window.open(url, '_blank')

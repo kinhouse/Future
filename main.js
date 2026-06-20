@@ -8,9 +8,33 @@ import {
 } from './lib.js'
 import { initInstallBanner } from './banner.js'
 
+function showUpdateBanner(worker) {
+  const banner = document.getElementById('update-banner')
+  banner.hidden = false
+  document.getElementById('update-reload').addEventListener('click', () => {
+    worker.postMessage({ type: 'SKIP_WAITING' })
+  })
+}
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register(import.meta.env.BASE_URL + 'sw.js').catch(() => {})
+    navigator.serviceWorker.register(import.meta.env.BASE_URL + 'sw.js')
+      .then(reg => {
+        if (reg.waiting) showUpdateBanner(reg.waiting)
+        reg.addEventListener('updatefound', () => {
+          const sw = reg.installing
+          sw.addEventListener('statechange', () => {
+            if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+              showUpdateBanner(sw)
+            }
+          })
+        })
+      })
+      .catch(() => {})
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      window.location.reload()
+    })
   })
 }
 

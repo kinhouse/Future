@@ -362,6 +362,43 @@ input[type="checkbox"] {
   color: var(--text);
 }
 
+/* Update banner */
+#update-banner {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  z-index: 100;
+  box-shadow: 0 4px 20px #0005;
+  max-width: calc(100vw - 2rem);
+}
+
+#update-banner button {
+  background: #fff3;
+  border: 1px solid #fff5;
+  border-radius: calc(var(--radius) - 2px);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+#update-banner button:hover {
+  background: #fff4;
+}
+
 @media (prefers-color-scheme: light) {
   body::before {
     display: none;

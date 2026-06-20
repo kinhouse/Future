@@ -23,6 +23,7 @@ import { initInstallBanner } from './banner.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const css = readFileSync(resolve(__dirname, 'style.css'), 'utf-8')
+const html = readFileSync(resolve(__dirname, 'index.html'), 'utf-8')
 
 // ── Bug 1: custom date picker stays visible when a preset is selected ─────────
 //
@@ -208,5 +209,52 @@ describe('install banner', () => {
     dismissBtn.click()
     expect(banner.hidden).toBe(true)
     expect(storage.getItem('aths-dismissed')).toBe('1')
+  })
+})
+
+// ── Update banner ─────────────────────────────────────────────────────────────
+//
+// When a new service worker is waiting, the app shows an update banner.
+// Clicking the reload button sends SKIP_WAITING to the waiting SW, which then
+// activates. The controllerchange event triggers a page reload.
+
+describe('Update banner', () => {
+  it('style.css defines styles for #update-banner', () => {
+    expect(css).toMatch(/#update-banner/)
+  })
+
+  it('index.html contains #update-banner element with hidden attribute', () => {
+    expect(html).toMatch(/id="update-banner"[^>]*hidden|hidden[^>]*id="update-banner"/)
+  })
+
+  describe('banner interaction', () => {
+    function showUpdateBanner(worker) {
+      const banner = document.getElementById('update-banner')
+      banner.hidden = false
+      document.getElementById('update-reload').addEventListener('click', () => {
+        worker.postMessage({ type: 'SKIP_WAITING' })
+      })
+    }
+
+    beforeEach(() => {
+      document.body.innerHTML = `
+        <div id="update-banner" hidden>
+          <span>Update available</span>
+          <button id="update-reload">Reload</button>
+        </div>
+      `
+    })
+
+    it('showUpdateBanner reveals the banner', () => {
+      showUpdateBanner({ postMessage: vi.fn() })
+      expect(document.getElementById('update-banner').hidden).toBe(false)
+    })
+
+    it('clicking reload sends SKIP_WAITING to the service worker', () => {
+      const worker = { postMessage: vi.fn() }
+      showUpdateBanner(worker)
+      document.getElementById('update-reload').click()
+      expect(worker.postMessage).toHaveBeenCalledWith({ type: 'SKIP_WAITING' })
+    })
   })
 })

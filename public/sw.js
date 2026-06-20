@@ -1,6 +1,10 @@
 const CACHE = 'future-cal-v1'
 
-self.addEventListener('install', () => self.skipWaiting())
+self.addEventListener('install', () => {})
+
+self.addEventListener('message', e => {
+  if (e.data?.type === 'SKIP_WAITING') self.skipWaiting()
+})
 
 self.addEventListener('activate', e => {
   e.waitUntil(

@@ -13,3 +13,7 @@ Never write production code without a preceding failing test.
 ## Decision-making
 
 Make implementation decisions independently. Ask the human before making decisions that affect UX.
+
+## Git
+
+This is a solo dev project. Commit directly to main; no PR review required.

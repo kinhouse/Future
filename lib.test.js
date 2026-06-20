@@ -522,7 +522,7 @@ describe('buildDefaultDescription', () => {
   })
 
   it('uses the provided URL verbatim', () => {
-    const result = buildDefaultDescription('https://kinhouse.github.io/Future/', new Date(2026, 5, 20))
-    expect(result).toContain('https://kinhouse.github.io/Future/')
+    const result = buildDefaultDescription('https://kinhouse.github.io/time-capsule/', new Date(2026, 5, 20))
+    expect(result).toContain('https://kinhouse.github.io/time-capsule/')
   })
 })

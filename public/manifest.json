@@ -2,13 +2,13 @@
   "name": "Time Capsule",
   "short_name": "TimeCapsule",
   "description": "Create time capsule events and add them to Google Calendar",
-  "start_url": "/Future/",
+  "start_url": "/time-capsule/",
   "display": "standalone",
   "background_color": "#0b0b18",
   "theme_color": "#1a1a2e",
   "icons": [
     {
-      "src": "/Future/icons/icon.svg",
+      "src": "/time-capsule/icons/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: '/Future/',
+  base: '/time-capsule/',
   test: {
     environment: 'node',
   },

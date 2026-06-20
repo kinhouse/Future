@@ -26,6 +26,14 @@ const __dirname = dirname(__filename)
 const css = readFileSync(resolve(__dirname, 'style.css'), 'utf-8')
 const html = readFileSync(resolve(__dirname, 'index.html'), 'utf-8')
 
+// ── Title placeholder text ────────────────────────────────────────────────────
+
+describe('title placeholder', () => {
+  it('uses the grandchild flower prompt as placeholder', () => {
+    expect(html).toContain('Pick a flower for my grandchild…')
+  })
+})
+
 // ── Bug 1: custom date picker stays visible when a preset is selected ─────────
 //
 // .field { display:flex } overrides the UA [hidden] rule, so div#custom-date-field

@@ -5,6 +5,7 @@ import {
   formatDisplayDate,
   buildDateStrings,
   buildGCalUrl,
+  buildDefaultDescription,
 } from './lib.js'
 import { initInstallBanner } from './banner.js'
 
@@ -110,6 +111,8 @@ if (navigator.geolocation) {
 
 
 updateLiveCountdown()
+
+document.getElementById('description').value = buildDefaultDescription(window.location.href)
 
 initInstallBanner({
   ua: navigator.userAgent,

@@ -62,6 +62,11 @@ export function isIosSafari(ua) {
   return /iP(hone|ad|od)/.test(ua) && /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS/.test(ua)
 }
 
+export function buildDefaultDescription(url, date = new Date()) {
+  const dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  return `…\n\nCreated by ${url} on ${dateStr}`
+}
+
 export function buildGCalUrl({ title, startStr, endStr, description, location }) {
   const params = new URLSearchParams({
     action: 'TEMPLATE',

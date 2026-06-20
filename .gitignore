@@ -1,0 +1,9 @@
+svgs
+pdf_templates
+output
+
+data.csv
+
+.DS_Store
+node_modules/
+dist/

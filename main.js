@@ -101,6 +101,9 @@ if (navigator.geolocation) {
     },
     () => {},
   )
+  locationInput.addEventListener('focus', () => {
+    if (locationInput.classList.contains('geo-filled')) locationInput.select()
+  })
   locationInput.addEventListener('input', () => {
     delete locationInput.dataset.geoValue
     locationInput.classList.remove('geo-filled')

@@ -324,6 +324,9 @@ describe('geolocation auto-fill on page load', () => {
       },
       () => {},
     )
+    locationInput.addEventListener('focus', () => {
+      if (locationInput.classList.contains('geo-filled')) locationInput.select()
+    })
     locationInput.addEventListener('input', () => {
       delete locationInput.dataset.geoValue
       locationInput.classList.remove('geo-filled')
@@ -392,6 +395,18 @@ describe('geolocation auto-fill on page load', () => {
     input.dispatchEvent(new Event('input'))
     expect(input.dataset.geoValue).toBeUndefined()
     expect(input.classList.contains('geo-filled')).toBe(false)
+  })
+
+  it('selects all text on focus so backspace clears the whole field', () => {
+    buildLocationDOM()
+    initGeo({
+      getCurrentPosition: success =>
+        success({ coords: { latitude: 37.7749, longitude: -122.4194 } }),
+    })
+    const input = document.getElementById('location')
+    input.dispatchEvent(new Event('focus'))
+    expect(input.selectionStart).toBe(0)
+    expect(input.selectionEnd).toBe('Current location'.length)
   })
 
   it('style.css defines .geo-filled for the location dot', () => {
